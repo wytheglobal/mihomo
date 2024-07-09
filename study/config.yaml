@@ -1,0 +1,42 @@
+mixed-port: 8808
+allow-lan: true
+proxies:
+  - {
+  	name: AU, 
+    server: extreme-au-01.grabgo.pro, 
+    port: 16141, 
+    type: vmess, 
+    uuid: f17a1267-fe85-41ea-8a3f-89c0ec6a55e0, 
+    alterId: 0, 
+    cipher: auto, 
+    tls: false, 
+    skip-cert-verify: true
+  }
+  # - {name: HK, server: extreme-hk-01.grabgo.pro, port: 16111, type: vmess, uuid: f17a1267-fe85-41ea-8a3f-89c0ec6a55e0, alterId: 0, cipher: auto, tls: false, skip-cert-verify: true}
+
+proxy-groups:
+# select is used for selecting proxy or proxy group
+# you can use RESTful API to switch proxy, is recommended for use in GUI.
+- name: Proxy
+  type: select
+  proxies:
+    - AU
+    # - HK
+
+
+rules:
+- DOMAIN-SUFFIX,google.com,Proxy
+- DOMAIN-KEYWORD,google,Proxy
+- DOMAIN,google.com,Proxy
+- DOMAIN,ip.sb,Proxy
+- DOMAIN,www.whatismyip.com.tw,Proxy
+# - DOMAIN-SUFFIX,ad.com,REJECT
+# - IP-CIDR,127.0.0.0/8,DIRECT
+# # rename SOURCE-IP-CIDR and would remove after prerelease
+# - SRC-IP-CIDR,192.168.1.201/32,DIRECT
+# - GEOIP,CN,DIRECT
+# - DST-PORT,80,DIRECT
+# - SRC-PORT,7777,DIRECT
+# FINAL would remove after prerelease
+# you also can use `FINAL,Proxy` or `FINAL,,Proxy` now
+- MATCH,Proxy
